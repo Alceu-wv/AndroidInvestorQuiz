@@ -81,5 +81,14 @@
         android:id="@+id/q9"
         android:name="br.edu.infnet.investorquiz.ui.main.Q9"
         android:label="fragment_q9"
-        tools:layout="@layout/fragment_q9" />
+        tools:layout="@layout/fragment_q9" >
+        <action
+            android:id="@+id/action_q9_to_finishActivity"
+            app:destination="@id/finishActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/finishActivity"
+        android:name="br.edu.infnet.investorquiz.FinishActivity"
+        android:label="activity_finish"
+        tools:layout="@layout/activity_finish" />
 </navigation>

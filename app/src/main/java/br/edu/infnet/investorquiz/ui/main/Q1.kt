@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.investorquiz.R
@@ -31,33 +32,47 @@ class Q1 : Fragment(R.layout.fragment_q1) {
         return fragmentBinding.root
     }
 
-//        val view = inflater.inflate(R.layout.fragment_q1, container, false)
-//        val btnAvancar = view.findViewById<Button>(R.id.btn_avancar)
-
-//        btnAvancar.setOnClickListener {
-//            val navController = this.findNavController()
-//            navController.navigate(R.id.action_q1_to_q2)
-//        }
-//        return view
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentQ1Binding.bind(view)
+//        binding = FragmentQ1Binding.bind(view)
+        binding?.apply {
+            viewModel = sharedViewModel
+            lifecycleOwner = viewLifecycleOwner
+            q1Fragment = this@Q1
+        }
 
-        radioGroup = view?.findViewById(R.id.)
+        radioGroup = view?.findViewById(R.id.radioGroup)
+        var nextButton : Button = view.findViewById(R.id.btn_avancar)
+
+        radioGroup!!.setOnClickListener{
+            nextButton.isEnabled = false
+        }
+
+
+        nextButton.setOnClickListener {
+            val selectedOption: Int = radioGroup!!.checkedRadioButtonId
+            if (selectedOption == -1) {
+                Toast.makeText(context, "Selecione uma das opções", Toast.LENGTH_SHORT).show()
+            } else {
+                radioButton = view?.findViewById(selectedOption)!!
+                Toast.makeText(context, radioButton.text, Toast.LENGTH_SHORT).show()
+
+                account_points(selectedOption)
+
+                findNavController().navigate(R.id.action_q1_to_q2)
+
+            }
+        }
     }
 
-
-
-    fun orderCupcake(quantity: Int) {
-        // Update the view model with the quantity
-        sharedViewModel.one_point_answer()
-
-        // If no flavor is set in the view model yet, select vanilla as default flavor
-
-        // Navigate to the next destination to select the flavor of the cupcakes
-        findNavController().navigate(R.id.action_q1_to_q2)
+    fun account_points(selectedOption: Int) {
+        when(selectedOption) {
+            R.id.radioButton -> sharedViewModel.one_point_answer()
+            R.id.radioButton2 -> sharedViewModel.two_point_answer()
+            R.id.radioButton3 -> sharedViewModel.three_point_answer()
+            R.id.radioButton4 -> sharedViewModel.four_point_answer()
+        }
+        sharedViewModel.count_answer()
     }
 
 }

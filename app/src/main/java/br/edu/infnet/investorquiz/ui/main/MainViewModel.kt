@@ -28,10 +28,19 @@ class MainViewModel : ViewModel() {
     fun four_point_answer() {
         this.question_score = 4
     }
-    fun five_point_answer() {
-        this.question_score = 5
-    }
+
     fun count_answer() {
         this.final_score += question_score
+    }
+
+    fun get_string_result() : String {
+        var result = "Conservador"
+        if (final_score > 30) {
+            result = "Arrojado"
+        }
+        else if (final_score > 12) {
+            result = "Moderado"
+        }
+        return result
     }
 }
